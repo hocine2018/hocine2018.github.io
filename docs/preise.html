@@ -249,48 +249,213 @@
 
 <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-24 pt-40">
 
-<section class="max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-  <h1 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Impressum</h1>
-
-  <p class="mb-2 text-gray-700 dark:text-gray-300">
-    Textilpflege Halstenbek<br>
-    Hauptstr 32<br>
-    25469 Halstenbek<br>
-    Deutschland
-  </p>
-
-  <p class="mb-2 text-gray-700 dark:text-gray-300">
-    Tel.: 04101 43910<br>
-    E-Mail: <a href="mailto:moin@Textilpflege-Halstenbek.de" class="text-blue-600 dark:text-blue-400 underline">info@Textilpflege-Halstenbek.de</a>
-  </p>
-
-  <p class="mb-2 text-gray-700 dark:text-gray-300">
-    Registergericht: Amtsgericht Pinneberg<br>
-  </p>
-
-  <p class="mb-2 text-gray-700 dark:text-gray-300">
-    Geschäftsführer/in: Hocine Mahmoudi
-  </p>
-
-  <p class="mb-2 text-gray-700 dark:text-gray-300">
-    Umsatzsteuer-Identifikationsnummer: DE138167081
-  </p>
-
-  <p class="mb-2 text-gray-700 dark:text-gray-300">
-    Verantwortliche/r i.S.d. § 18 Abs. 2 MStV:<br>
-    Volker Müden, Im Ährenfeld 6, 66121 Saarbrücken
-  </p>
-
-  <!-- <p class="mb-2 text-gray-700 dark:text-gray-300">
-    Plattform der EU-Kommission zur Online-Streitbeilegung: <a href="https://ec.europa.eu/odr" class="text-blue-600 dark:text-blue-400 underline" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/odr</a>
-  </p> -->
-
-  <p class="mb-2 text-gray-700 dark:text-gray-300">
-    Wir sind zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle weder verpflichtet noch bereit.
-  </p>
-
+<section class="py-12 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md">
+  <div class="max-w-7xl mx-auto px-4 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-8">Unsere Preise nach Branche</h2>
+    <div id="price-cards" class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"></div>
+  </div>
 
 </section>
+
+
+<script>
+// 🔹 JSON Daten
+const data = [
+  {
+    name: "Hotels & Pensionen",
+    bgColor: "#DBEAFE",
+    textColor: "#1e3a8a",
+    items: [
+      { name: "Bettwäsche", price: 5 },
+      { name: "Handtücher", price: 3 },
+      { name: "Tischwäsche", price: 4 },
+      { name: "Vorhänge", price: 7 }
+
+    ]
+  },
+  {
+    name: "Arztpraxen & Physiotherapien",
+    bgColor: "#d1fae5",
+    textColor: "#065f46",
+    items: [
+      { name: "Praxiswäsche",  price: 3 },
+      { name: "Laborkittel",  price: 6 },
+      { name: "Patientenhandtücher",price: 2 }
+    ]
+  },
+  {
+    name: "Restaurants & Cafés",
+    bgColor: "#fee2e2",
+    textColor: "#7f1d1d",
+    items: [
+      { name: "Servietten",  price: 1 },
+      { name: "Tischtücher",  price: 4 },
+      { name: "Küchenwäsche", price: 2 }
+    ]
+  },
+  {
+    name: "Handwerksbetriebe",
+    bgColor: "#fef9c3",
+    textColor: "#78350f",
+    items: [
+      { name: "Arbeitskleidung",  price: 5 },
+      { name: "Tücher & Lappen",  price: 2 },
+      { name: "Handtücher", price: 3 }
+    ]
+  }
+];
+
+// 🔹 Gleiche Höhe für Cards
+function updateCardHeights() {
+  const cards = document.querySelectorAll('#price-cards > div');
+  let maxHeight = 0;
+  cards.forEach(card => { card.style.height = 'auto'; if(card.offsetHeight>maxHeight) maxHeight=card.offsetHeight; });
+  cards.forEach(card => card.style.height=maxHeight+'px');
+}
+
+// 🔹 Generiere Cards
+const container = document.getElementById('price-cards');
+
+data.forEach(branch => {
+  const card = document.createElement('div');
+  card.style.backgroundColor = branch.bgColor;
+  card.style.borderRadius = '0.5rem';
+  card.style.padding = '1.5rem';
+  card.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+  card.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+  card.style.display = 'flex';
+  card.style.flexDirection = 'column';
+  card.style.gap = '1rem';
+
+  // Hover-Effekt
+  card.addEventListener('mouseenter', ()=>{card.style.transform='translateY(-8px)'; card.style.boxShadow='0 10px 20px rgba(0,0,0,0.2)';});
+  card.addEventListener('mouseleave', ()=>{card.style.transform='translateY(0)'; card.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)';});
+
+  // Titel
+  const title = document.createElement('h3');
+  title.textContent = branch.name;
+  title.style.color = branch.textColor;
+  title.style.fontSize = '1.25rem';
+  title.style.fontWeight = '600';
+  title.style.marginBottom = '0.75rem';
+  card.appendChild(title);
+
+  // Header
+  const header = document.createElement('div');
+  header.style.display = 'grid';
+  header.style.gridTemplateColumns = '2fr 1fr 1fr';
+  header.style.fontWeight = '600';
+  header.style.borderBottom = '1px solid rgba(0,0,0,0.2)';
+  header.style.paddingBottom = '0.25rem';
+  header.style.fontSize = '0.875rem';
+  header.innerHTML = `
+    <div style="text-align:left;">Artikel</div>
+    <div style="text-align:left;">Preis</div>
+    <div style="text-align:right;">Kundenkarte</div>
+  `;
+  card.appendChild(header);
+
+  // Items
+  const ul = document.createElement('ul');
+  ul.style.display = 'grid';
+  ul.style.rowGap = '0.5rem';
+
+  branch.items.forEach(item=>{
+    const li = document.createElement('li');
+    li.style.display='grid';
+    li.style.gridTemplateColumns='2fr 1fr 1fr';
+    li.style.alignItems='center';
+    li.style.borderBottom='1px solid rgba(0,0,0,0.1)';
+    li.style.paddingBottom='0.25rem';
+    li.style.fontSize='0.875rem';
+    li.style.position='relative';
+
+    // Artikelname + Icon links
+    const nameSpan = document.createElement('span');
+    nameSpan.style.display='flex';
+    nameSpan.style.alignItems='left';
+    nameSpan.style.justifyContent='flex-start';
+    nameSpan.style.overflow='hidden'; 
+    nameSpan.style.textOverflow='ellipsis';
+    nameSpan.style.whiteSpace='nowrap';
+    nameSpan.title = item.name;
+    nameSpan.innerHTML=`<i class="fa-solid ${item.icon}" style="margin-right:0.1rem; font-size:1rem;"></i>${item.name}`;
+    li.appendChild(nameSpan);
+
+    // Normalpreis rechts
+    const normalPrice=document.createElement('span');
+    normalPrice.style.fontWeight='600';
+    normalPrice.style.textAlign='left';
+    normalPrice.textContent=item.price+'€';
+    li.appendChild(normalPrice);
+
+    // Rabatt rechts + Tooltip
+    const discount=document.createElement('span');
+    discount.style.fontWeight='600';
+    discount.style.color='#16a34a';
+    discount.style.textAlign='right';
+    discount.style.position='relative';
+    discount.style.cursor='pointer';
+    const tooltip=document.createElement('span');
+    tooltip.textContent='inkl. 20% Rabatt für unsere Stammkunden';
+    tooltip.style.position='absolute';
+    tooltip.style.background='#111';
+    tooltip.style.color='#fff';
+    tooltip.style.fontSize='0.625rem';
+    tooltip.style.padding='0.25rem 0.5rem';
+    tooltip.style.borderRadius='0.25rem';
+    tooltip.style.whiteSpace='nowrap';
+    tooltip.style.opacity='0';
+    tooltip.style.transition='opacity 0.3s';
+    tooltip.style.zIndex='10';
+    discount.appendChild(tooltip);
+    discount.addEventListener('mouseenter',()=>{tooltip.style.opacity='1';});
+    discount.addEventListener('mouseleave',()=>{tooltip.style.opacity='0';});
+    li.appendChild(discount);
+
+    ul.appendChild(li);
+  });
+
+  card.appendChild(ul);
+  container.appendChild(card);
+});
+
+// 🔹 Automatische Berechnung 20% Rabatt
+document.querySelectorAll('#price-cards li').forEach(li=>{
+  const normalPrice=li.children[1];
+  const discount=li.children[2];
+  const price=parseFloat(normalPrice.textContent.replace(',','.'));
+  const discounted=(price*0.8).toFixed(2).replace('.',',');
+  discount.insertAdjacentText('afterbegin',`${discounted}€`);
+});
+
+// 🔹 Responsive + gleiche Höhe + mobile Anpassung Preisspalten
+function responsiveUpdate(){
+  updateCardHeights();
+  const cards=document.querySelectorAll('#price-cards > div');
+  cards.forEach(card=>{
+    if(window.innerWidth<640){ // kleine Bildschirme
+      card.style.padding='1rem';
+      card.querySelectorAll('h3').forEach(h=>h.style.fontSize='1rem');
+      card.querySelectorAll('li').forEach(li=>{
+        li.style.fontSize='0.75rem';
+        li.style.gridTemplateColumns='2fr 1fr 1fr'; // Artikelname bekommt mehr Platz
+      });
+    } else { // Desktop
+      card.style.padding='1.5rem';
+      card.querySelectorAll('h3').forEach(h=>h.style.fontSize='1.25rem');
+      card.querySelectorAll('li').forEach(li=>{
+        li.style.fontSize='0.875rem';
+        li.style.gridTemplateColumns='2fr 1fr 1fr';
+      });
+    }
+  });
+}
+
+window.addEventListener('load',responsiveUpdate);
+window.addEventListener('resize',responsiveUpdate);
+</script>
+
 
 </main>
 <footer class="bg-white dark:bg-background-dark border-t border-gray-200 dark:border-gray-800">
